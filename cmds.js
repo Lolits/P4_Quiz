@@ -92,10 +92,10 @@ exports.testCmd = (rl, id) => {
       const quiz = model.getByIndex(id);
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
-          biglog("Correcto", "green");
+          biglog("correct", "green");
           rl.prompt();
         } else {
-          biglog("Incorrecto", "red");
+          biglog("incorrect", "red");
           rl.prompt();
         }
       });
@@ -116,7 +116,7 @@ exports.playCmd = rl => {
   const jugar = () => {
     if (toBeResolved.length <= 0) {
       biglog("¡Enhorabuena!", "green");
-      log(`Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
+      log(`Fin. Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
       rl.prompt();
     } else {
       let azar = Math.floor(Math.random() * toBeResolved.length);
@@ -127,12 +127,12 @@ exports.playCmd = rl => {
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           score++;
-          biglog("Correcto", "green");
+          biglog("correct", "green");
           log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           jugar();
         } else {
-          biglog("Incorrecto", "red");
-          log(`Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
+          biglog("incorrect", "red");
+          log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           rl.prompt();
         }
       });
