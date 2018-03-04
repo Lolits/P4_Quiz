@@ -92,10 +92,10 @@ exports.testCmd = (rl, id) => {
       const quiz = model.getByIndex(id);
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
-          biglog("correct", "green");
+          log("Correcto", "green");
           rl.prompt();
         } else {
-          biglog("incorrect", "red");
+          log("Incorrecto", "red");
           rl.prompt();
         }
       });
@@ -127,11 +127,11 @@ exports.playCmd = rl => {
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           score++;
-          biglog("correct", "green");
+          log("Correcto", "green");
           log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           jugar();
         } else {
-          biglog("incorrect", "red");
+          log("Incorrecto", "red");
           log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           rl.prompt();
         }
