@@ -93,11 +93,11 @@ exports.testCmd = (rl, id) => {
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           log("Su respuesta es:", "blue");
-          log("Correcta", "green");
+          log("correcta", "green");
           rl.prompt();
         } else {
           log("Su respuesta es:", "blue");
-          log("Incorrecta", "red");
+          log("incorrecta", "red");
           rl.prompt();
         }
       });
@@ -130,12 +130,12 @@ exports.playCmd = rl => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           score++;
           log("Su respuesta es:", "blue");
-          log("Correcta", "green");
+          log("correcta", "green");
           log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           jugar();
         } else {
           log("Su respuesta es:", "blue");
-          log("Incorrecta", "red");
+          log("incorrecta", "red");
           log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           rl.prompt();
         }
