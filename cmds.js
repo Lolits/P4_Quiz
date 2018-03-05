@@ -92,10 +92,12 @@ exports.testCmd = (rl, id) => {
       const quiz = model.getByIndex(id);
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
-          log("Correcto", "green");
+          log("Su respuesa es:", "blue");
+          log("Correcta", "green");
           rl.prompt();
         } else {
-          log("Incorrecto", "red");
+          log("Su respuesa es:", "blue");
+          log("Incorrecta", "red");
           rl.prompt();
         }
       });
@@ -127,11 +129,13 @@ exports.playCmd = rl => {
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           score++;
-          log("Correcto", "green");
+          log("Su respuesa es:", "blue");
+          log("Correcta", "green");
           log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           jugar();
         } else {
-          log("Incorrecto", "red");
+          log("Su respuesa es:", "blue");
+          log("Incorrecta", "red");
           log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
           rl.prompt();
         }
