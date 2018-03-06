@@ -116,16 +116,15 @@ exports.playCmd = rl => {
     toBeResolved[x] = x;
   }
   const jugar = () => {
-    if (toBeResolved.length <= 0) {
+    if (toBeResolved.length === 0) {
       log("¡Enhorabuena!", "green");
       log(`Fin. Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
       rl.prompt();
     } else {
       let azar = Math.floor(Math.random() * toBeResolved.length);
       let id = toBeResolved[azar];
-      toBeResolved.splice((toBeResolved.length - 1), 1);
+      toBeResolved.splice(azar, 1);
       let quiz = model.getByIndex(id);
-      model.deleteByIndex(id);
       rl.question(colorize(quiz.question, "red"), ans => {
         if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
           score++;
