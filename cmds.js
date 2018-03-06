@@ -117,7 +117,7 @@ exports.playCmd = rl => {
   }
   const jugar = () => {
     if (toBeResolved.length <= 0) {
-      biglog("¡Enhorabuena!", "green");
+      log("¡Enhorabuena!", "green");
       log(`Fin. Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
       rl.prompt();
     } else {
