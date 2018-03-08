@@ -177,38 +177,51 @@ exports.testCmd = (rl, id) => {
 
 exports.playCmd = rl => {
   let score = 0;
-  let size = model.count();
-  let toBeResolved = new Array(size);
-  for (var x = 0; x < size; x++) {
-    toBeResolved[x] = x;
-  }
-  const jugar = () => {
-    if (toBeResolved.length === 0) {
-      log("¡Enhorabuena!", "green");
-      log(`Fin. Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
-      rl.prompt();
-    } else {
-      let azar = Math.floor(Math.random() * toBeResolved.length);
-      let id = toBeResolved[azar];
-      toBeResolved.splice(azar, 1);
-      let quiz = model.getByIndex(id);
-      rl.question(colorize(quiz.question, "red"), ans => {
-        if (ans.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
-          score++;
-          log("Su respuesta es:", "blue");
-          log("correcta", "green");
-          log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
-          jugar();
-        } else {
-          log("Su respuesta es:", "blue");
-          log("incorrecta", "red");
-          log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
-          rl.prompt();
-        }
+  let toBeResolved = new Array();
+  models.quiz.findAll()
+    .then(quizzes => {
+      quizzes.forEach((quiz, id) => {
+        toBeResolved[id] = quiz;
       });
-    }
-  }
-  jugar();
+      log(toBeResolved.length, "red");
+      const jugar = () => {
+        if (toBeResolved.length === 0) {
+          log("¡Enhorabuena!", "green");
+          log(`Fin. Has ganado. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
+          rl.prompt();
+        } else {
+          var azar = Math.floor(Math.random() * toBeResolved.length);
+          let quiz = toBeResolved[azar];
+          toBeResolved.splice(azar, 1);
+          return makeQuestion(rl, quiz.question)
+            .then(a => {
+              if (a.toLowerCase().trim() == quiz.answer.toLowerCase().trim()) {
+                score++;
+                log("Su respuesta es:", "blue");
+                log("correcta", "green");
+                log(`Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
+                jugar();
+              } else {
+                log("Su respuesta es:", "blue");
+                log("incorrecta", "red");
+                log(`Fin. Has perdido. Preguntas acertadas: ${colorize(score, "yellow")}`, "green");
+                rl.prompt();
+              }
+            })
+            .catch(Sequelize.ValidationError, error => {
+              errorlog("El quiz es erróneo: ");
+              error.errors.forEach(({ message }) => errorlog(message));
+            })
+            .catch(error => {
+              errorlog(error.message);
+            })
+            .then(() => {
+              rl.prompt();
+            });
+        }
+      }
+      jugar();
+    });
 }
 
 exports.creditsCmd = rl => {
