@@ -183,7 +183,6 @@ exports.playCmd = rl => {
       quizzes.forEach((quiz, id) => {
         toBeResolved[id] = quiz;
       });
-      log(toBeResolved.length, "red");
       const jugar = () => {
         if (toBeResolved.length === 0) {
           log("¡Enhorabuena!", "green");
